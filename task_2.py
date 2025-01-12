@@ -8,7 +8,7 @@ def get_key_values_from_csv(csv_file_path: str) -> {int: dict}:
     with open(csv_file_path, "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            id = int(row["ID"])  # Приводимо ідентифікатор до цілочисельного типу
+            id = (float(row["Price"]), int(row["ID"]))  # Приводимо ідентифікатор до цілочисельного типу
             values = {
                 "Name": row["Name"],
                 "Category": row["Category"],
@@ -29,7 +29,7 @@ def add_item_to_dict(_dict: dict, csv_file_data: []):
 
 # Створіть функції для виконання діапазонного запиту, де потрібно знайти всі товари у визначеному діапазоні цін
 def range_query_tree(my_tree: OOBTree, start_price: float, end_price: float):
-    return list(my_tree.items(min=start_price, max=end_price))
+    return my_tree.items((start_price,), (end_price,))
 
 
 def range_query_dict(my_dict: dict, start_price: float, end_price: float):
@@ -57,6 +57,9 @@ if __name__ == "__main__":
     # Встановлюємо мінімальну та максимальну ціну для діапазонного запиту
     min_price = 140
     max_price = 141
+
+    print(len(range_query_tree(my_tree, min_price, max_price)))
+    print(len(range_query_dict(my_dict, min_price, max_price)))
 
     print(
         f"Total range_query time for OOBTree: {timeit.timeit(stmt=lambda: range_query_tree(my_tree, min_price, max_price), number=100)} seconds")
