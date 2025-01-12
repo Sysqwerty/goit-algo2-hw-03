@@ -35,7 +35,7 @@ def range_query_tree(my_tree: OOBTree, start_price: float, end_price: float):
 def range_query_dict(my_dict: dict, start_price: float, end_price: float):
     result = []
     for key, value in my_dict.items():
-        if start_price <= value['Price'] <= end_price:
+        if start_price <= value['Price'] < end_price:
             result.append({key: value})
     return result
 
